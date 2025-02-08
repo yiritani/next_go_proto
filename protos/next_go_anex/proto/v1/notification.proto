@@ -26,5 +26,5 @@ message SendNotificationResponse {
 
 service NotificationService {
   rpc ListNotification(ListNotificationRequest) returns (ListNotificationResponse) {}
-  rpc SendNotification(ListNotificationRequest) returns (ListNotificationResponse) {}
+  rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse) {}
 }

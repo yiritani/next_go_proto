@@ -1,3 +1,3 @@
-module github.com/next_go_proto/sdk/go
+module github.com/yiritani/next_go_proto/sdk/golang
 
 go 1.23.5

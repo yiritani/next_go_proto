@@ -2,13 +2,13 @@
 //
 // Source: protos/next_go/proto/v1/user.proto
 
-package proto_v1connect
+package next_go_proto_v1connect
 
 import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "grpc_backend/src/_generated/proto/v1"
+	v1 "github.com/yiritani/next_go_proto/sdk/golang/_generated/protos/next_go/proto/v1"
 	http "net/http"
 	strings "strings"
 )

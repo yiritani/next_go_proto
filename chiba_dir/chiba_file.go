@@ -1,5 +1,5 @@
-package chiba
+package chiba_package
 
-func ChibaFile() string {
+func ChibaFunc() string {
 	return "chiba.txt"
 }

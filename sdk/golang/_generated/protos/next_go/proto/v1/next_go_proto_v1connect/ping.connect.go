@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "github.com/yiritani/next_go_proto/sdk/golang/_generated/protos/next_go/proto/v1"
+	v1 "github.com/yiritani/next_go_proto/next_go/proto/v1"
 	http "net/http"
 	strings "strings"
 )

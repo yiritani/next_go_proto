@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	proto "github.com/yiritani/next_go_proto/next_go/proto"
+	v1 "github.com/yiritani/next_go_proto/sdk/golang/_generated/protos/next_go/v1"
 	http "net/http"
 	strings "strings"
 )
@@ -41,8 +41,8 @@ const (
 
 // PingServiceClient is a client for the next_go.api.v1.PingService service.
 type PingServiceClient interface {
-	Ping(context.Context, *connect.Request[proto.PingRequest]) (*connect.Response[proto.PingResponse], error)
-	PingSample(context.Context, *connect.Request[proto.PingRequest]) (*connect.Response[proto.PingResponse], error)
+	Ping(context.Context, *connect.Request[v1.PingRequest]) (*connect.Response[v1.PingResponse], error)
+	PingSample(context.Context, *connect.Request[v1.PingRequest]) (*connect.Response[v1.PingResponse], error)
 }
 
 // NewPingServiceClient constructs a client for the next_go.api.v1.PingService service. By default,
@@ -54,15 +54,15 @@ type PingServiceClient interface {
 // http://api.acme.com or https://acme.com/grpc).
 func NewPingServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) PingServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	pingServiceMethods := proto.File_protos_next_go_v1_ping_proto.Services().ByName("PingService").Methods()
+	pingServiceMethods := v1.File_protos_next_go_v1_ping_proto.Services().ByName("PingService").Methods()
 	return &pingServiceClient{
-		ping: connect.NewClient[proto.PingRequest, proto.PingResponse](
+		ping: connect.NewClient[v1.PingRequest, v1.PingResponse](
 			httpClient,
 			baseURL+PingServicePingProcedure,
 			connect.WithSchema(pingServiceMethods.ByName("Ping")),
 			connect.WithClientOptions(opts...),
 		),
-		pingSample: connect.NewClient[proto.PingRequest, proto.PingResponse](
+		pingSample: connect.NewClient[v1.PingRequest, v1.PingResponse](
 			httpClient,
 			baseURL+PingServicePingSampleProcedure,
 			connect.WithSchema(pingServiceMethods.ByName("PingSample")),
@@ -73,24 +73,24 @@ func NewPingServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 
 // pingServiceClient implements PingServiceClient.
 type pingServiceClient struct {
-	ping       *connect.Client[proto.PingRequest, proto.PingResponse]
-	pingSample *connect.Client[proto.PingRequest, proto.PingResponse]
+	ping       *connect.Client[v1.PingRequest, v1.PingResponse]
+	pingSample *connect.Client[v1.PingRequest, v1.PingResponse]
 }
 
 // Ping calls next_go.api.v1.PingService.Ping.
-func (c *pingServiceClient) Ping(ctx context.Context, req *connect.Request[proto.PingRequest]) (*connect.Response[proto.PingResponse], error) {
+func (c *pingServiceClient) Ping(ctx context.Context, req *connect.Request[v1.PingRequest]) (*connect.Response[v1.PingResponse], error) {
 	return c.ping.CallUnary(ctx, req)
 }
 
 // PingSample calls next_go.api.v1.PingService.PingSample.
-func (c *pingServiceClient) PingSample(ctx context.Context, req *connect.Request[proto.PingRequest]) (*connect.Response[proto.PingResponse], error) {
+func (c *pingServiceClient) PingSample(ctx context.Context, req *connect.Request[v1.PingRequest]) (*connect.Response[v1.PingResponse], error) {
 	return c.pingSample.CallUnary(ctx, req)
 }
 
 // PingServiceHandler is an implementation of the next_go.api.v1.PingService service.
 type PingServiceHandler interface {
-	Ping(context.Context, *connect.Request[proto.PingRequest]) (*connect.Response[proto.PingResponse], error)
-	PingSample(context.Context, *connect.Request[proto.PingRequest]) (*connect.Response[proto.PingResponse], error)
+	Ping(context.Context, *connect.Request[v1.PingRequest]) (*connect.Response[v1.PingResponse], error)
+	PingSample(context.Context, *connect.Request[v1.PingRequest]) (*connect.Response[v1.PingResponse], error)
 }
 
 // NewPingServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -99,7 +99,7 @@ type PingServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewPingServiceHandler(svc PingServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	pingServiceMethods := proto.File_protos_next_go_v1_ping_proto.Services().ByName("PingService").Methods()
+	pingServiceMethods := v1.File_protos_next_go_v1_ping_proto.Services().ByName("PingService").Methods()
 	pingServicePingHandler := connect.NewUnaryHandler(
 		PingServicePingProcedure,
 		svc.Ping,
@@ -127,10 +127,10 @@ func NewPingServiceHandler(svc PingServiceHandler, opts ...connect.HandlerOption
 // UnimplementedPingServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedPingServiceHandler struct{}
 
-func (UnimplementedPingServiceHandler) Ping(context.Context, *connect.Request[proto.PingRequest]) (*connect.Response[proto.PingResponse], error) {
+func (UnimplementedPingServiceHandler) Ping(context.Context, *connect.Request[v1.PingRequest]) (*connect.Response[v1.PingResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("next_go.api.v1.PingService.Ping is not implemented"))
 }
 
-func (UnimplementedPingServiceHandler) PingSample(context.Context, *connect.Request[proto.PingRequest]) (*connect.Response[proto.PingResponse], error) {
+func (UnimplementedPingServiceHandler) PingSample(context.Context, *connect.Request[v1.PingRequest]) (*connect.Response[v1.PingResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("next_go.api.v1.PingService.PingSample is not implemented"))
 }

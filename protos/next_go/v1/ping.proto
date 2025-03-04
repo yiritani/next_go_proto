@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+// NOTE: 実は超大事。
+// このパッケージ名は、生成されたコードのパッケージ名と一致している必要があります。
 package api.v1.ping;
 
 option go_package = "github.com/yiritani/next_go_proto/sdk/golang/_generated/protos/next_go/v1;next_go_proto_v1";
